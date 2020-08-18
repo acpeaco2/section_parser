@@ -30,6 +30,7 @@ icurl log collection examples:
 
     
 To grab multiple pages:
+
     icurl 'http://localhost:7777/api/class/eventRecord.xml?order-by=eventRecord.created|desc&page-size=100000&page=0' > /tmp/tac-outputs/eventRecord.xml
     icurl 'http://localhost:7777/api/class/eventRecord.xml?order-by=eventRecord.created|desc&page-size=100000&page=1' > /tmp/tac-outputs/eventRecord2.xml
     icurl 'http://localhost:7777/api/class/eventRecord.xml?order-by=eventRecord.created|desc&page-size=100000&page=2' > /tmp/tac-outputs/eventRecord3.xml
