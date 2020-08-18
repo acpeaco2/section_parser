@@ -29,8 +29,33 @@ icurl log collection examples:
     icurl 'http://localhost:7777/api/class/eventRecord.xml?order-by=eventRecord.created|desc&page-size=100000' > eventRecord.xml 
 
     
-  To grab multiple pages:
+To grab multiple pages:
     icurl 'http://localhost:7777/api/class/eventRecord.xml?order-by=eventRecord.created|desc&page-size=100000&page=0' > /tmp/tac-outputs/eventRecord.xml
     icurl 'http://localhost:7777/api/class/eventRecord.xml?order-by=eventRecord.created|desc&page-size=100000&page=1' > /tmp/tac-outputs/eventRecord2.xml
     icurl 'http://localhost:7777/api/class/eventRecord.xml?order-by=eventRecord.created|desc&page-size=100000&page=2' > /tmp/tac-outputs/eventRecord3.xml
     icurl 'http://localhost:7777/api/class/eventRecord.xml?order-by=eventRecord.created|desc&page-size=100000&page=3' > /tmp/tac-outputs/eventRecord4.xml
+
+
+Workflow Example:
+
+	apic1#
+	apic1# bash
+	admin@apic1:~> icurl 'http://localhost:7777/api/class/aaaModLR.xml?order-by=aaaModLR.created|desc&page-size=100000' > aaaModLR.xml
+	  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+									 Dload  Upload   Total   Spent    Left  Speed
+	100 8308k  100 8308k    0     0  4313k      0  0:00:01  0:00:01 --:--:-- 4311k
+	admin@apic1:~>
+	admin@apic1:~> python3 section_parser.py --xml --file aaaModLR.xml --sort created --retro --month --space | more
+	2020 Apr 03 17:09:24.947 admin %uni/backupst/snapshots-[uni/fabric/configexp-Daily...: ""Snapshot run-2020-04-03T17-09-23 created"" == name:run-2020-04-03T17-09-23, retire:no
+
+	2020 Apr 03 17:16:39.438 admin %uni/fabric/recovery: ""FabricRecovery created"" == enable:yes
+
+	2020 Apr 03 17:23:11.575 admin %uni/fabric/configimp-myImport: ""ImportP myImport created"" == adminSt:untriggered, failOnDecryptErrors:yes, fileName:unknown.tgz, importMode:atomic, importType:merge, name:myImport, snapshot:yes
+
+	2020 Apr 03 17:23:23.917 admin %uni/fabric/configimp-myImport: ""ImportP myImport modified"" == fileName (Old: unknown.tgz, New: ce2_DailyAutoBackup-2020-04-03T09-00-29.tar.gz)
+
+	2020 Apr 03 17:23:26.199 admin %uni/fabric/configimp-myImport: ""ImportP myImport modified"" == importType (Old: merge, New: replace)
+
+	2020 Apr 03 17:23:32.003 admin %uni/fabric/configimp-myImport/rsRemotePath: ""RsRemotePath created"" == tnFileRemotePathName:BS
+	2020 Apr 03 17:23:32.003 admin %uni/fabric/configimp-myImport: ""ImportP myImport modified"" == snapshot (Old: yes, New: no)
+	2020 Apr 03 17:23:32.003 admin %uni/fabric/configimp-myImport/rsImportSource: ""RsImportSource created"" == tnFileRemotePathName:BS
